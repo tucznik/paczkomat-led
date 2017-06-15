@@ -28,6 +28,17 @@
 #define WYSW_SEGMENTY_DDR 		DDRA
 #define WYSW_SEGMENTY_PORT 		PORTA
 
+#define WYSW_ZNAK_ZERO 			0x40
+#define WYSW_ZNAK_JEDEN			0x79
+#define WYSW_ZNAK_DWA			0x24
+#define WYSW__ZNAK_TRZY			0x30
+#define WYSW_ZNAK_CZTERY		0x19
+#define WYSW_ZNAK_PIEC			0x12
+#define WYSW_ZNAK_SZESC			0x02
+#define WYSW_ZNAK_SIEDEM		0x78
+#define WYSW_ZNAK_OSIEM			0x00
+#define WYSW_ZNAK_DZIEWIEC		0x10
+#define WYSW_ZNAK_WYL			0x7F
 struct Wysw
 {
 	volatile uint8_t *ddr;
@@ -43,8 +54,11 @@ Wysw tab[] =
 };
 
 // 0 1 2 3 4 5 6 7 8 9 zgaszone wszystkie
-uint8_t tab_cyfry[11] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x00, 0x10, 0x7F};
-uint8_t cyfra[4] = {tab_cyfry[0], tab_cyfry[0], tab_cyfry[0], tab_cyfry[0]};
+uint8_t tab_cyfry[11] = {WYSW_ZNAK_ZERO, WYSW_ZNAK_JEDEN, WYSW_ZNAK_DWA,
+		WYSW__ZNAK_TRZY, WYSW_ZNAK_CZTERY, WYSW_ZNAK_PIEC, WYSW_ZNAK_SZESC,
+		WYSW_ZNAK_SIEDEM, WYSW_ZNAK_OSIEM, WYSW_ZNAK_DZIEWIEC, WYSW_ZNAK_WYL};
+
+uint8_t cyfra[4] = {tab_cyfry[1], tab_cyfry[2], tab_cyfry[3], tab_cyfry[4]};
 
 void IntToLed(uint16_t liczba)
 {
@@ -83,6 +97,7 @@ int main()
 		{
 			t_flaga_licz = 0;
 			IntToLed(l++);
+			if(l == 5000) l = 0;
 		}
 		if(t_flaga)
 		{
